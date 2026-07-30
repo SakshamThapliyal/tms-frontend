@@ -1,0 +1,126 @@
+<mat-card class="projects-card">
+
+  <!-- Filter Panel -->
+  <div class="filter-panel" [formGroup]="filterForm">
+
+    <div class="filter-row">
+
+      <div class="field-group search-field">
+        <label>Search</label>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+
+          <mat-icon matPrefix>search</mat-icon>
+
+          <input matInput placeholder="Search by name or phone..." formControlName="search" (keyup.enter)="onSearch()">
+
+        </mat-form-field>
+      </div>
+
+      <button mat-flat-button color="primary" class="search-btn" (click)="onSearch()">
+
+        <mat-icon>search</mat-icon>
+        Search
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <mat-card-content>
+
+    <div class="table-container">
+
+      <table mat-table [dataSource]="users">
+
+        <!-- Full Name -->
+        <ng-container matColumnDef="fullName">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Full Name
+          </th>
+
+          <td mat-cell *matCellDef="let user" class="user-name">
+
+            {{ user.fullName }}
+
+          </td>
+
+        </ng-container>
+
+        <!-- Email -->
+        <ng-container matColumnDef="email">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Email
+          </th>
+
+          <td mat-cell *matCellDef="let user">
+
+            {{ user.email }}
+
+          </td>
+
+        </ng-container>
+
+        <!-- Phone -->
+        <ng-container matColumnDef="phone">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Phone
+          </th>
+
+          <td mat-cell *matCellDef="let user">
+
+            {{ user.phone }}
+
+          </td>
+
+        </ng-container>
+
+        <!-- Created Date -->
+        <ng-container matColumnDef="createdAt">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Created Date
+          </th>
+
+          <td mat-cell *matCellDef="let user">
+
+            {{ user.createdAt | date:'dd-MMM-yyyy' }}
+
+          </td>
+
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      </table>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="users.length === 0">
+
+        <mat-icon>group_off</mat-icon>
+
+        <p>No users found</p>
+
+        <span>
+          Try adjusting your search.
+        </span>
+
+      </div>
+
+    </div>
+
+    <!-- Pagination -->
+    <mat-paginator [length]="totalRecords" [pageIndex]="pageIndex" [pageSize]="pageSize"
+      [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons (page)="onPageChange($event)">
+
+    </mat-paginator>
+
+  </mat-card-content>
+
+</mat-card>

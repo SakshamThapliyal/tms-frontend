@@ -1,0 +1,142 @@
+<div class="dashboard-container">
+
+  <div class="page-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p class="subtitle">Overview of your projects, tasks, and team activity</p>
+    </div>
+
+    <form [formGroup]="dashboardForm">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Project</mat-label>
+        <mat-select formControlName="projectId">
+          <mat-option *ngFor="let project of projects" [value]="project.projectId">
+            {{ project.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="summary-cards">
+
+    <div class="stat-card accent">
+      <mat-icon>group</mat-icon>
+      <div class="stat-body">
+        <span class="stat-label">Total Users</span>
+        <span class="stat-value">{{ dashboard?.totalUsers }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card success">
+      <mat-icon>folder</mat-icon>
+      <div class="stat-body">
+        <span class="stat-label">Total Projects</span>
+        <span class="stat-value">{{ dashboard?.totalProjects }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card warning">
+      <mat-icon>fact_check</mat-icon>
+      <div class="stat-body">
+        <span class="stat-label">Total Tasks</span>
+        <span class="stat-value">{{ dashboard?.totalTasks }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <mat-card class="calendar-card">
+
+    <mat-card-content>
+
+      <div class="calendar-wrapper">
+
+        <div class="calendar-panel">
+          <h3>Calendar</h3>
+          <mat-calendar [selected]="selectedDate" (selectedChange)="onDateSelected($event)">
+          </mat-calendar>
+        </div>
+
+        <div class="date-info">
+          <span class="date-label">Today</span>
+          <span class="date-value">{{ today | date:'dd MMM yyyy' }}</span>
+          <span class="date-day">{{ today | date:'EEEE' }}</span>
+        </div>
+
+      </div>
+
+    </mat-card-content>
+
+  </mat-card>
+
+  <div class="info-grid">
+
+    <mat-card class="info-card">
+
+      <mat-card-header>
+        <mat-card-title>Project Statistics</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <table mat-table [dataSource]="dashboard?.projectStatistics || []">
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let item">
+              <span class="status-chip" [ngClass]="item.status">
+                {{ item.status }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="taskCount">
+            <th mat-header-cell *matHeaderCellDef>Count</th>
+            <td mat-cell *matCellDef="let item" class="count-cell">
+              {{ item.taskCount }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['status','taskCount']"></tr>
+          <tr mat-row *matRowDef="let row; columns:['status','taskCount'];"></tr>
+
+        </table>
+      </mat-card-content>
+
+    </mat-card>
+
+    <mat-card class="info-card">
+
+      <mat-card-header>
+        <mat-card-title>User Productivity</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <table mat-table [dataSource]="dashboard?.userProductivity || []">
+
+          <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef>User</th>
+            <td mat-cell *matCellDef="let item" class="user-cell">
+              <span class="user-avatar">{{ item.fullName?.charAt(0) }}</span>
+              {{ item.fullName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="completedTaskCount">
+            <th mat-header-cell *matHeaderCellDef>Completed</th>
+            <td mat-cell *matCellDef="let item" class="count-cell">
+              {{ item.completedTaskCount }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['userName','completedTaskCount']"></tr>
+          <tr mat-row *matRowDef="let row; columns:['userName','completedTaskCount'];"></tr>
+
+        </table>
+      </mat-card-content>
+
+    </mat-card>
+
+  </div>
+
+</div>

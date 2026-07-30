@@ -1,0 +1,55 @@
+<div class="sidebar">
+
+  <div class="logo">
+    <mat-icon>dashboard</mat-icon>
+    <span>TMS</span>
+  </div>
+
+  <nav>
+
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }">
+
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
+
+    </a>
+
+    <a
+      routerLink="/projects"
+      routerLinkActive="active">
+
+      <mat-icon>folder</mat-icon>
+      <span>Projects</span>
+
+    </a>
+
+    <a
+      routerLink="/tasks"
+      routerLinkActive="active">
+
+      <mat-icon>task</mat-icon>
+      <span>Tasks</span>
+
+    </a>
+
+    <!-- Only Admin for admin-->
+    <a
+      *ngIf="authService.isAdmin()"
+      routerLink="/users"
+      routerLinkActive="active">
+
+      <mat-icon>group</mat-icon>
+      <span>Users</span>
+
+    </a>
+
+  </nav>
+
+  <div class="version">
+    Version 1.0.0
+  </div>
+
+</div>

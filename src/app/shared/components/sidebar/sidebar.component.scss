@@ -1,0 +1,68 @@
+.sidebar {
+  height: 100vh;
+  background: #1e293b;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px;
+  font-size: 22px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+nav {
+  flex: 1;
+  padding-top: 15px;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 50px;
+    padding: 0 22px;
+    border-left: 4px solid transparent;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 16px;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
+
+    &:hover {
+      background: #334155;
+      color: white;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #60a5fa;
+      outline-offset: -2px;
+    }
+
+    &.active {
+      background: #2563eb;
+      color: white;
+      border-left-color: #60a5fa;
+    }
+  }
+}
+
+.version {
+  padding: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #94a3b8;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}

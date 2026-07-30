@@ -1,0 +1,227 @@
+<mat-card class="tasks-card">
+
+  <div class="filter-panel" [formGroup]="filterForm">
+
+    <div class="filter-row">
+
+      <div class="field-group search-field">
+        <label>Search</label>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput placeholder="Search by task title" formControlName="search" (keyup.enter)="loadTasks()">
+        </mat-form-field>
+      </div>
+
+      <div class="field-group">
+        <label>Status</label>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-select formControlName="status">
+            <mat-option value="">All</mat-option>
+            <mat-option value="ToDo">To Do</mat-option>
+            <mat-option value="InProgress">In Progress</mat-option>
+            <mat-option value="Completed">Completed</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="field-group">
+        <label>Project</label>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-select formControlName="projectId">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let project of projects" [value]="project.projectId">
+              {{ project.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="field-group">
+        <label>Assigned to</label>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-select formControlName="assignedToUserId">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let user of users" [value]="user.userId">
+              {{ user.fullName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <button mat-flat-button color="primary" class="search-btn" (click)="loadTasks()">
+        <mat-icon>search</mat-icon>
+        Search
+      </button>
+
+      <span class="spacer"></span>
+
+      <button mat-flat-button color="primary" class="add-btn" routerLink="add">
+        <mat-icon>add</mat-icon>
+        Add Task
+      </button>
+
+    </div>
+
+  </div>
+
+  <mat-card-content>
+
+    <div class="table-container">
+
+      <table mat-table [dataSource]="tasks">
+
+        <!-- Actions -->
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+
+          <td mat-cell *matCellDef="let task">
+
+            <button mat-icon-button color="primary" [routerLink]="['/tasks/edit',task.taskId]">
+
+              <mat-icon>edit</mat-icon>
+
+            </button>
+
+            <button mat-icon-button color="warn" (click)="deleteTask(task.taskId)">
+
+              <mat-icon>delete</mat-icon>
+
+            </button>
+
+          </td>
+
+        </ng-container>
+
+        <!-- Task Id -->
+
+        <!-- <ng-container matColumnDef="taskId">
+
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+
+          <td mat-cell *matCellDef="let task">
+
+            {{task.taskId}}
+
+          </td>
+
+        </ng-container> -->
+
+        <!-- Title -->
+
+        <ng-container matColumnDef="taskTitle">
+
+          <th mat-header-cell *matHeaderCellDef>Title</th>
+
+          <td mat-cell *matCellDef="let task" class="task-title" [title]="task.taskTitle">
+
+            {{task.taskTitle}}
+
+          </td>
+
+        </ng-container>
+
+        <!-- Status -->
+
+        <ng-container matColumnDef="status">
+
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+
+          <td mat-cell *matCellDef="let task">
+
+            <span class="status-chip">
+
+              {{ task.status | taskStatus }}
+
+            </span>
+
+          </td>
+
+        </ng-container>
+
+        <!-- Priority -->
+
+        <ng-container matColumnDef="priority">
+
+          <th mat-header-cell *matHeaderCellDef>Priority</th>
+
+          <td mat-cell *matCellDef="let task">
+
+            {{task.priority}}
+
+          </td>
+
+        </ng-container>
+
+        <!-- Project -->
+
+        <ng-container matColumnDef="projectName">
+
+          <th mat-header-cell *matHeaderCellDef>Project</th>
+
+          <td mat-cell *matCellDef="let task" class="project-name">
+
+            {{task.projectName}}
+
+          </td>
+
+        </ng-container>
+
+        <!-- User -->
+
+        <ng-container matColumnDef="assigneeName">
+
+          <th mat-header-cell *matHeaderCellDef>Assigned To</th>
+
+          <td mat-cell *matCellDef="let task" class="assignee-name">
+
+            {{task.assigneeName}}
+
+          </td>
+
+        </ng-container>
+
+        <!-- Due Date -->
+
+        <ng-container matColumnDef="dueDate">
+
+          <th mat-header-cell *matHeaderCellDef>Due Date</th>
+
+          <td mat-cell *matCellDef="let task">
+
+            {{task.dueDate | date:'dd-MMM-yyyy'}}
+
+          </td>
+
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      </table>
+
+      <div class="empty-state" *ngIf="tasks.length===0">
+
+        <mat-icon>assignment</mat-icon>
+
+        <h3>No Tasks Found</h3>
+
+        <p>
+
+          Try changing your filters or create a new task.
+
+        </p>
+
+      </div>
+
+    </div>
+
+    <mat-paginator [length]="totalRecords" [pageIndex]="paginationRequest.pageIndex"
+      [pageSize]="paginationRequest.pageSize" [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons
+      (page)="onPageChange($event)">
+    </mat-paginator>
+
+  </mat-card-content>
+
+</mat-card>

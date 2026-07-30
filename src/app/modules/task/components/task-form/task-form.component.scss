@@ -1,0 +1,112 @@
+mat-card {
+  max-width: 1100px;
+
+  margin: 16px auto;
+
+  padding: 16px 20px;
+}
+
+mat-card-header {
+  margin-bottom: 8px;
+}
+
+mat-card-title {
+  font-size: 20px;
+
+  font-weight: 600;
+}
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 22px 16px; // extra row-gap so error text below a field doesn't crowd the next row
+
+  margin-top: 12px;
+}
+
+.full-width {
+  width: 100%;
+
+  margin-top: 4px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+// Compact the Material form-field's internal spacing
+::ng-deep {
+  .mat-mdc-form-field {
+    font-size: 14px;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    padding-top: 0;
+  }
+
+  // Reserve just enough space for a single line of error/hint text
+  // instead of collapsing it to 0 (which caused overlap with the row below)
+  .mat-mdc-form-field-subscript-wrapper {
+    min-height: 18px;
+  }
+
+  .mat-mdc-form-field-hint-wrapper,
+  .mat-mdc-form-field-error-wrapper {
+    padding: 0 0;
+  }
+
+  .mat-mdc-form-field-error {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .mdc-text-field {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+}
+
+textarea[matInput] {
+  min-height: 60px;
+}
+
+.button-container {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-top: 16px;
+}
+
+button {
+  min-width: 120px;
+}
+
+@media (max-width: 992px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  mat-card {
+    padding: 12px;
+    margin: 8px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-container {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+}

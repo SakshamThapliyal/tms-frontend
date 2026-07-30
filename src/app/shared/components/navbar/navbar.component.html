@@ -1,0 +1,42 @@
+<mat-toolbar class="navbar">
+
+    <!-- Application Title -->
+    <span class="logo">
+
+        Task Management System
+
+    </span>
+
+    <span class="spacer"></span>
+
+    <!-- Notification -->
+    <button mat-icon-button>
+
+        <mat-icon>
+
+            notifications
+
+        </mat-icon>
+
+    </button>
+
+    <!-- Logged-in User -->
+    <span class="user">
+
+        Welcome,
+
+        <strong>{{ currentUser?.fullName }}</strong>
+
+    </span>
+
+    <!-- Logout -->
+    <button
+        mat-raised-button
+        color="primary"
+        (click)="logout()">
+
+        Logout
+
+    </button>
+
+</mat-toolbar>
