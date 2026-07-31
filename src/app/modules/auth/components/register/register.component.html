@@ -12,10 +12,7 @@
 
         <label>Full Name</label>
 
-        <input
-          type="text"
-          formControlName="fullName"
-          placeholder="Full Name">
+        <input type="text" formControlName="fullName" placeholder="Full Name">
 
       </div>
 
@@ -23,10 +20,7 @@
 
         <label>Email</label>
 
-        <input
-          type="email"
-          formControlName="email"
-          placeholder="Email">
+        <input type="email" formControlName="email" placeholder="Email">
 
       </div>
 
@@ -34,10 +28,7 @@
 
         <label>Phone</label>
 
-        <input
-          type="text"
-          formControlName="phone"
-          placeholder="Phone Number">
+        <input type="text" formControlName="phone" placeholder="Phone Number">
 
       </div>
 
@@ -45,18 +36,13 @@
 
         <label>Password</label>
 
-        <input
-          type="password"
-          formControlName="password"
-          placeholder="Password">
+        <input type="password" formControlName="password" placeholder="Password">
 
       </div>
 
-      <button
-        class="btn-primary"
-        type="submit">
+      <button class="btn-primary" type="submit" [disabled]="isLoading">
 
-        Register
+        {{ isLoading ? 'Registering...' : 'Register' }}
 
       </button>
 

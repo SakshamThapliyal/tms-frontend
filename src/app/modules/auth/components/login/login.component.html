@@ -11,8 +11,8 @@
         <label>Password</label>
         <input type="password" placeholder="Enter Password" formControlName="password">
       </div>
-      <button type="submit" class="btn-primary">
-        Login
+      <button type="submit" class="btn-primary" [disabled]="isLoading">
+        {{ isLoading ? 'Logging in...' : 'Login' }}
       </button>
     </form>
     <div class="bottom-text">

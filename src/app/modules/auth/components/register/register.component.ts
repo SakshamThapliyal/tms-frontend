@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   protected registerForm!: FormGroup;
+  protected isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -22,56 +23,56 @@ export class RegisterComponent implements OnInit {
     this.createForm();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  // Create Register Form
   private createForm(): void {
     this.registerForm = this.fb.group({
       fullName: ['', Validators.required],
-
       email: ['', [Validators.required, Validators.email]],
-
       phone: ['', Validators.required],
-
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
-  // Register User
   protected register(): void {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
-
       this.showMessage('Please fill all required fields.');
-
       return;
     }
 
+    this.isLoading = true;
+
     this.authService.register(this.registerForm.value).subscribe({
       next: (response: any) => {
-        console.log(response);
-
-        // Success Message
         this.showMessage('Registration successful.');
-
-        // Navigate Login Page
         this.router.navigate(['/auth/login']);
       },
 
       error: (error: any) => {
         console.error(error);
 
-        // Error Message
-        this.showMessage('Registration failed.');
+        const validationErrors = error?.error?.errors;
+
+        if (validationErrors) {
+          const messages = Object.values(validationErrors).flat() as string[];
+          this.showMessage(messages.join(' '));
+        } else {
+          this.showMessage('Registration failed. Please try again.');
+        }
+
+        this.isLoading = false;
+      },
+
+      complete: () => {
+        this.isLoading = false;
       },
     });
   }
 
-  // Show Message
   private showMessage(message: string): void {
     this.snackBar.open(message, 'Close', {
-      duration: 3000,
+      duration: 6000,
       horizontalPosition: 'right',
       verticalPosition: 'top',
     });
