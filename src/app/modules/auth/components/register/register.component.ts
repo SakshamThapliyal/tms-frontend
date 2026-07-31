@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterComponent implements OnInit {
   protected registerForm!: FormGroup;
   protected isLoading = false;
+  protected serverErrors: { [key: string]: string[] } = {};
 
   constructor(
     private fb: FormBuilder,
@@ -42,6 +43,7 @@ export class RegisterComponent implements OnInit {
     }
 
     this.isLoading = true;
+    this.serverErrors = {};
 
     this.authService.register(this.registerForm.value).subscribe({
       next: (response: any) => {
@@ -55,8 +57,8 @@ export class RegisterComponent implements OnInit {
         const validationErrors = error?.error?.errors;
 
         if (validationErrors) {
-          const messages = Object.values(validationErrors).flat() as string[];
-          this.showMessage(messages.join(' '));
+          this.serverErrors = validationErrors;
+          this.showMessage('Please fix the errors below.');
         } else {
           this.showMessage('Registration failed. Please try again.');
         }

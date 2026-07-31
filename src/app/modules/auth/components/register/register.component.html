@@ -13,6 +13,7 @@
         <label>Full Name</label>
 
         <input type="text" formControlName="fullName" placeholder="Full Name">
+        <small class="error" *ngFor="let msg of serverErrors['FullName']">{{ msg }}</small>
 
       </div>
 
@@ -21,6 +22,7 @@
         <label>Email</label>
 
         <input type="email" formControlName="email" placeholder="Email">
+        <small class="error" *ngFor="let msg of serverErrors['Email']">{{ msg }}</small>
 
       </div>
 
@@ -29,6 +31,7 @@
         <label>Phone</label>
 
         <input type="text" formControlName="phone" placeholder="Phone Number">
+        <small class="error" *ngFor="let msg of serverErrors['Phone']">{{ msg }}</small>
 
       </div>
 
@@ -37,6 +40,7 @@
         <label>Password</label>
 
         <input type="password" formControlName="password" placeholder="Password">
+        <small class="error" *ngFor="let msg of serverErrors['Password']">{{ msg }}</small>
 
       </div>
 
